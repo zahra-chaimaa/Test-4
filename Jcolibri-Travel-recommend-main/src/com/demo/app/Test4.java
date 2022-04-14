@@ -166,7 +166,7 @@ public abstract class Test4 implements StandardCBRApplication {
 	public static void main(String[] args) {}
 
 
-}
+}}
 
 
 //Query definition

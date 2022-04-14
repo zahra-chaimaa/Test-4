@@ -1,0 +1,7 @@
+<DataBaseConfiguration>
+	<HibernateConfigFile>com/demo/app/hibernate.cfg.xml</HibernateConfigFile>
+	<DescriptionMappingFile>com/demo/app/TravelDescription.hbm.xml</DescriptionMappingFile>
+	<DescriptionClassName>com/demo/app/TravelDescription</DescriptionClassName>
+	<SolutionMappingFile>com/demo/app/TravelSolution.hbm.xml</SolutionMappingFile>
+	<SolutionClassName>com/demo/app/TravelSolution</SolutionClassName>
+</DataBaseConfiguration>

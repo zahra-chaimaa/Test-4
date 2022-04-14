@@ -4,11 +4,11 @@ package com.demo.app;
 
 
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.GlobalSimilarityFunction;
-import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.localSimilarityFunction;
+//import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.localSimilarityFunction;
 import es.ucm.fdi.gaia.jcolibri.casebase.LinealCaseBase;
 import es.ucm.fdi.gaia.jcolibri.cbraplications.StandardCBRApplication;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.*;
-import es.ucm.fdi.gaia.jcolibri.exception;
+import es.ucm.fdi.gaia.jcolibri.exception.OntologyAccessException;
 import es.ucm.fdi.gaia.jcolibri.connector.DataBaseConnector;
 import es.ucm.fdi.gaia.jcolibri.exception.ExecutionException;
 import es.ucm.fdi.gaia.jcolibri.exception.InitializingException;
@@ -34,35 +34,45 @@ public abstract class Test4 implements StandardCBRApplication {
 	CBRCaseBase _caseBase;
 	ArrayList<RetrievalResult>cases;
 	public Collection<CBRCase> casestoreturn;
-	public collection<RetrievalResult>evaltogather;
+	//public collection<RetrievalResult>evaltogather;
 
-	public CBRCaseBase mycases;
+	//public CBRCaseBase mycases;
 	/* (non-Javadoc)
 	 * @see jcolibri.cbraplications.BasicCBRApplication#configure()
 	 */
 	public void configure() throws ExecutionException {
-
+		try {
 			_connector = new DataBaseConnector();
 			//_connector.initFromXMLfile(jcolibri.util.FileIO.findFile("com.demo.app.databaseconfig.xml"));
 			_connector.initFromXMLfile(FileIO.findFile("com.demo.app.databaseconfig.xml"));
 			_caseBase = (CBRCaseBase) new LinealCaseBase();
-}
-		Collection <CBRCase> mycases;
+		}catch(Exception e) {
+			throw new ExecutionException(e);
+		}
+		}
+
+		//Collection <CBRCase> mycases;
 
 	
 	/* (non-Javadoc)
 	 * @see jcolibri.cbraplications.BasicCBRApplication#preCycle()
 	 */
-	public CBRCaseBase preCycle() {
-		try {
-			_caseBase.init(_connector);
-		} catch (InitializingException e){
-			e.printStacTrace();
-		}
-		for (CBRCase c : _caseBase.getCases())
-			System.out.Println(c);
+	public CBRCaseBase preCycle() throws ExecutionException {
+
+		_caseBase.init(_connector);
+		java.util.Collection<CBRCase> cases = _caseBase.getCases();
+		System.out.println("precycle complete");
+
 		return _caseBase;
 	}
+
+
+		//} catch (InitializingException e){
+		//	e.printStacTrace();
+		//}
+		//for (CBRCase c : _caseBase.getCases())
+		//	System.out.Println(c);
+		//return _caseBase;}
 	
 	/* (non-Javadoc)
 	 * @see jcolibri.cbraplications.BasicCBRApplication#cycle()
@@ -92,22 +102,22 @@ public abstract class Test4 implements StandardCBRApplication {
 		//Blank description
 		//query.setDescription((CaseComponent) new TravelDescription());
 		/********* Execute NN ************/
-		collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(_caseBase.getCases(), cbrQuery, simConfig);
+		Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(_caseBase.getCases(), cbrQuery, simConfig);
 		//		Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(_caseBase.getCases(),
 //				query,
 //				simConfig);
 		
 		/********* Select cases **********/
-		//Collection<CBRCase> selectedcases = SelectCases.selectTopK(eval, 3);
+		Collection<CBRCase> selectedcases = SelectCases.selectTopK(eval,3);
 
-		evaltogather=eval;
-		public void getMeMyCases( int k ) {
-		Collection<CBRCase> selectedcases = SelectCases.selectTopK( evaltogather, k);
-		casestoreturn = selectedcases;
+		//evaltogather=eval;
+		//public void getMeMyCases( int k ) {
+		//Collection<CBRCase> selectedcases = SelectCases.selectTopK( evaltogather, k);
+		//casestoreturn = selectedcases;
 		//to print the cases after i shortened them to what i want
-		System.out.println("Combined + " + k + " cases gathered");
-		for (CBRCase c : selectedcases)
-			System.out.println(c);
+		//System.out.println("Combined + " + k + " cases gathered");
+		//for (CBRCase c : selectedcases)
+		//	System.out.println(c);
 
 
 
@@ -166,7 +176,7 @@ public abstract class Test4 implements StandardCBRApplication {
 	public static void main(String[] args) {}
 
 
-}}
+}
 
 
 //Query definition

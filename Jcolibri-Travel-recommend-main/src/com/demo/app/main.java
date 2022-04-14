@@ -36,7 +36,6 @@ public class main {
             region.setCurrency(new String ("Euro"));
             region.setAirport( new String ("airport"));
             queryDesc.setRegion(region);
-
             CBRQuery query = new CBRQuery();
             query.setDescription((CaseComponent) queryDesc);
 

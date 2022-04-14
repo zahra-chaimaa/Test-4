@@ -36,16 +36,15 @@ public class main {
             region.setCurrency(new String ("Euro"));
             region.setAirport( new String ("airport"));
             queryDesc.setRegion(region);
-
             CBRQuery query = new CBRQuery();
             query.setDescription((CaseComponent) queryDesc);
 
-            Test4 test = new Test4() {
-                @Override
-                public void postCycle() throws ExecutionException {
+            Test4 test = new Test4();
+                //@Override
+                //public void postCycle() throws ExecutionException {
 
-                }
-            }; //{
+                //}
+            //}; //{
            //     @Override
           //      public void postCycle() throws ExecutionException {
 

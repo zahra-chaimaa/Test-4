@@ -4,13 +4,15 @@ package com.demo.app;
 
 
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.GlobalSimilarityFunction;
-//import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.localSimilarityFunction;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.LocalSimilarityFunction;
 import es.ucm.fdi.gaia.jcolibri.casebase.LinealCaseBase;
+import es.ucm.fdi.gaia.jcolibri.exception.InitializingException;
 import es.ucm.fdi.gaia.jcolibri.cbraplications.StandardCBRApplication;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.*;
 import es.ucm.fdi.gaia.jcolibri.exception.OntologyAccessException;
 import es.ucm.fdi.gaia.jcolibri.connector.DataBaseConnector;
 import es.ucm.fdi.gaia.jcolibri.exception.ExecutionException;
+import es.ucm.fdi.gaia.jcolibri.util.FileIO;
 import es.ucm.fdi.gaia.jcolibri.exception.InitializingException;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNScoringMethod;
@@ -32,8 +34,8 @@ public  class Test4 implements StandardCBRApplication {
 
 	Connector _connector;
 	CBRCaseBase _caseBase;
-	ArrayList<RetrievalResult>cases;
-	public Collection<CBRCase> casestoreturn;
+	//ArrayList<RetrievalResult>cases;
+//	public Collection<CBRCase> casestoreturn;
 	//public collection<RetrievalResult>evaltogather;
 
 	//public CBRCaseBase mycases;
@@ -44,7 +46,7 @@ public  class Test4 implements StandardCBRApplication {
 		try {
 			_connector = new DataBaseConnector();
 			//_connector.initFromXMLfile(jcolibri.util.FileIO.findFile("com.demo.app.databaseconfig.xml"));
-			_connector.initFromXMLfile(FileIO.findFile("com.demo.app.databaseconfig.xml"));
+			_connector.initFromXMLfile(es.ucm.fdi.gaia.jcolibri.util.FileIO.findFile("com/demo/app/databaseconfig.xml"));
 			_caseBase = (CBRCaseBase) new LinealCaseBase();
 		}catch(Exception e) {
 			throw new ExecutionException(e);
@@ -60,7 +62,7 @@ public  class Test4 implements StandardCBRApplication {
 	public CBRCaseBase preCycle() throws ExecutionException {
 
 		_caseBase.init(_connector);
-		java.util.Collection<CBRCase> cases = _caseBase.getCases();
+		//java.util.Collection<CBRCase> cases = _caseBase.getCases();
 		System.out.println("precycle complete");
 
 		return _caseBase;
@@ -79,7 +81,7 @@ public  class Test4 implements StandardCBRApplication {
 	 */
 	public void cycle(CBRQuery cbrQuery)
 	{		
-		/********* NumericSim Retrieval **********/
+		/*//******** NumericSim Retrieval **********/
 		
 		NNConfig simConfig = new NNConfig();
 		simConfig.setDescriptionSimFunction(new Average());
@@ -101,14 +103,15 @@ public  class Test4 implements StandardCBRApplication {
 		//System.out.println();
 		//Blank description
 		//query.setDescription((CaseComponent) new TravelDescription());
-		/********* Execute NN ************/
+	//	   /********* Execute NN ************/
 		Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(_caseBase.getCases(), cbrQuery, simConfig);
 		//		Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(_caseBase.getCases(),
 //				query,
 //				simConfig);
 		
-		/********* Select cases **********/
+	//	/********* Select cases **********/
 		Collection<CBRCase> selectedcases = SelectCases.selectTopK(eval,3);
+		System.out.println(selectedcases);
 
 		//evaltogather=eval;
 		//public void getMeMyCases( int k ) {
@@ -156,7 +159,7 @@ public  class Test4 implements StandardCBRApplication {
 //		System.out.println("Case with new Id");
 //		System.out.println(bestCase);
 		
-		/********* Retain **********/
+		 // /********* Retain **********/
 		
 //		 Uncomment next line to store cases into persistence
 		//jcolibri.method.retain.StoreCasesMethod.storeCase(_caseBase, bestCase);
@@ -171,12 +174,67 @@ public  class Test4 implements StandardCBRApplication {
 	}
 
 	/**
-	 * @param args
+	 // * @param args
 	 */
-	public static void main(String[] args) {}
+	public static void main(String[] args)  {
+		try{
+		TravelDescription queryDesc = new TravelDescription();
+		queryDesc.setAccommodation(TravelDescription.AccommodationTypes.ThreeStars);
+		queryDesc.setDuration(10);
+		queryDesc.setHolidayType(new String("Recreation"));
+		queryDesc.setNumberOfPersons(4);
 
+		Region region = new Region();
+		region.setRegion(new String("Bulgaria"));
+		region.setCity(new String("Sofia"));
+		region.setCurrency(new String("Euro"));
+		region.setAirport(new String("airport"));
+		queryDesc.setRegion(region);
+		CBRQuery query = new CBRQuery();
+		query.setDescription( (CaseComponent) queryDesc);
 
+		Test4 test = new Test4();
+		//@Override
+		//public void postCycle() throws ExecutionException {
+
+		//}
+		//}; //{
+		//     @Override
+		//      public void postCycle() throws ExecutionException {
+
+		//  }
+		//}; //{
+		test.configure();
+		test.preCycle();
+		test.cycle(query);
+		test.postCycle();
+		//  }
+		// test4.preCycle();
+		//  test4.cycle(query);
+		System.out.println("Cycle finished. Type exit to idem");
+		//}while(!reader.readLine().equals("exit"));
+		//}
+	}catch (ExecutionException e) {
+		System.out.println(e.getMessage());
+		e.printStackTrace();
+	}//
+ //catch (Exception e) {
+		// TODO Auto-generated catch block
+	//	e.printStackTrace();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //Query definition

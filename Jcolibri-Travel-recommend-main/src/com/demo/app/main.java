@@ -1,17 +1,30 @@
 package com.demo.app;
 
-//import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
+import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseComponent;
 import es.ucm.fdi.gaia.jcolibri.exception.ExecutionException;
-//import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
-//import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNScoringMethod;
-//import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.global.Average;
-//import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Equal;
-//import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Interval;
-//import es.ucm.fdi.gaia.jcolibri.method.retrieve.RetrievalResult;
+//import es.ucm.fdi.gaia.jcolibri.util.*;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNScoringMethod;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.global.Average;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Equal;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Interval;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.RetrievalResult;
+import es.ucm.fdi.gaia.jcolibri.util.FileIO;
+import java.util.Collection;
 
-//import java.util.Collection;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -59,11 +72,11 @@ public class main {
 
           //  }
 
-           // test4.preCycle();
+             // test4.preCycle();
           //  test4.cycle(query);
 
 
-            //	System.out.println("Cycle finished. Type exit to idem");
+            	System.out.println("Cycle finished. Type exit to idem");
             //}while(!reader.readLine().equals("exit"));
 
 
@@ -71,11 +84,12 @@ public class main {
         } catch (ExecutionException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
-        } catch (Exception e) {
+        }
+        //catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+          //  e.printStackTrace();
         }
 
     }//main
 
-}
+
